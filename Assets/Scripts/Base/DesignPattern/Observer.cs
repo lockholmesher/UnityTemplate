@@ -6,7 +6,7 @@ namespace LTAUnityBase.Base.DesignPattern
 {
     public class Observer : Singleton<Observer>
     {
-        public delegate void CallBackObserver(MonoBehaviour data);
+        public delegate void CallBackObserver(object data);
 
         Dictionary<string, HashSet<CallBackObserver>> dictObserver = new Dictionary<string, HashSet<CallBackObserver>>();
         // Use this for initialization
@@ -22,7 +22,16 @@ namespace LTAUnityBase.Base.DesignPattern
             listObserver.Remove(callbackObserver);
         }
 
-        public void Notify<OData>(string topicName, OData Data) where OData : MonoBehaviour
+        // public void Notify<OData>(string topicName, OData Data) where OData : MonoBehaviour
+        // {
+        //     HashSet<CallBackObserver> listObserver = CreateListObserverForTopic(topicName);
+        //     foreach (CallBackObserver observer in listObserver)
+        //     {
+        //         observer(Data);
+        //     }
+        // }
+
+        public void Notify<OData>(string topicName, object Data)
         {
             HashSet<CallBackObserver> listObserver = CreateListObserverForTopic(topicName);
             foreach (CallBackObserver observer in listObserver)

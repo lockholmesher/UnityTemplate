@@ -19,7 +19,7 @@ namespace LTAUnityBase.Base.DesignPattern
             GameObject.Destroy(_Object.gameObject);
         }
 
-        Obj createPooling<Obj>(Obj _Object) where Obj : MonoBehaviour
+        public static Obj createPooling<Obj>(Obj _Object) where Obj : MonoBehaviour
         {
             string Type = _Object.GetType().Name;
             List<MonoBehaviour> listObjects;
@@ -36,6 +36,7 @@ namespace LTAUnityBase.Base.DesignPattern
                 {
                     Obj obj = (Obj)listObjects[0];
                     listObjects.Remove(obj);
+                    obj.gameObject.SetActive(true);
                     return obj;
                 }
                 return null;
