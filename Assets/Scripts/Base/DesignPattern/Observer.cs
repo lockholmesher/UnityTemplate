@@ -31,7 +31,7 @@ namespace LTAUnityBase.Base.DesignPattern
         //     }
         // }
 
-        public void Notify<OData>(string topicName, object Data)
+        public void Notify(string topicName, object Data)
         {
             HashSet<CallBackObserver> listObserver = CreateListObserverForTopic(topicName);
             foreach (CallBackObserver observer in listObserver)
