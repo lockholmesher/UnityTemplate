@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
+
 public class Utils
 {
     public static string ConvertMoneyToString(long money)
@@ -75,6 +77,15 @@ public class Utils
         catch
         {
             return false;
+        }
+    }
+
+    public static IEnumerator IeDelayTimeToDo(float s,Action action)
+    {
+        yield return new WaitForSeconds(s);
+        if (action != null)
+        {
+            action();
         }
     }
 

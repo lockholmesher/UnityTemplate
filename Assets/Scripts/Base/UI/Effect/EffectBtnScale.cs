@@ -3,30 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using LTAUnityBase.Base.Controller;
+using System;
 namespace LTAUnityBase.Base.UI.Effect
 {
 	[DisallowMultipleComponent]
-	public class EffectBtnScale : BehaviourController, IPointerUpHandler, IPointerDownHandler,IEffect
+	public class EffectBtnScale : BehaviourController,IEffect
 	{
 		public float toScale = 1.08f;
-		public void OnPointerUp(PointerEventData eventData)
-		{
-			ScaleUpdate(Vector3.one);
-		}
 
-		public void OnPointerDown(PointerEventData eventData)
-		{
+		Vector3 originScale;
+
+        private void Awake()
+        {
+			originScale = transform.localScale;
+        }
+
+        public void ShowEffect(Action endShowEffect)
+        {
 			ScaleUpdate(Vector3.one * toScale);
 		}
 
-        public void ShowEffect()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void HideEffect(Action endHideEffect)
+		{
+			ScaleUpdate(originScale);
+		}
 
-        public void HideEffect()
+        public void Hide()
         {
-            throw new System.NotImplementedException();
+            transform.localScale = originScale;
         }
     }
 }

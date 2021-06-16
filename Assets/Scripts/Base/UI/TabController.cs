@@ -9,32 +9,9 @@ namespace LTAUnityBase.Base.UI
     [DisallowMultipleComponent]
     public class TabController : ButtonController
     {
-        
-        private IEffect[] effects;
 
         [SerializeField]
         protected bool isClicked = false;
-
-        protected virtual void Awake()
-        {
-            effects = (IEffect[])GetComponents(typeof(IEffect));
-        }
-
-        void ShowEffect()
-        {
-            foreach (IEffect effect in effects)
-            {
-                effect.ShowEffect();
-            }
-        }
-
-        void HidEffect()
-        {
-            foreach (IEffect effect in effects)
-            {
-                effect.HideEffect();
-            }
-        }
 
 
         void EnableEffect(bool enable)
@@ -67,6 +44,18 @@ namespace LTAUnityBase.Base.UI
         {
             if (isClicked) return;
             base.OnPointerClick(eventData);
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            if (isClicked) return;
+            base.OnPointerDown(eventData);
+        }
+
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+            if (isClicked) return;
+            base.OnPointerUp(eventData);
         }
     }
 }

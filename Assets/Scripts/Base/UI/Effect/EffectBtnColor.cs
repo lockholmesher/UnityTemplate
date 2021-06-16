@@ -4,11 +4,12 @@ using UnityEngine;
 using LTAUnityBase.Base.Controller;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 namespace LTAUnityBase.Base.UI.Effect
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Image))]
-    public class EffectBtnColor : BehaviourController,IPointerUpHandler, IPointerDownHandler,IEffect
+    public class EffectBtnColor : BehaviourController,IEffect
 	{
 		[SerializeField]
 		Color ToColor;
@@ -23,29 +24,24 @@ namespace LTAUnityBase.Base.UI.Effect
 			originColor = img.color;
         }
 
-		public void OnPointerUp(PointerEventData eventData)
-		{
-			UpdateColor(ToColor,originColor, UpdateColorImage);
-		}
-
-		public void OnPointerDown(PointerEventData eventData)
-		{
-			UpdateColor(originColor, ToColor, UpdateColorImage);
-		}
-
         void UpdateColorImage(Color color)
         {
 			img.color = color;
         }
 
-        public void ShowEffect()
+        public void ShowEffect(Action endShowEffect)
         {
-            throw new System.NotImplementedException();
+            UpdateColor(originColor, ToColor, UpdateColorImage,endShowEffect);
         }
 
-        public void HideEffect()
+        public void HideEffect(Action endHideEffect)
         {
-            throw new System.NotImplementedException();
+            UpdateColor(ToColor, originColor, UpdateColorImage,endHideEffect);
+        }
+
+        public void Hide()
+        {
+            img.color = originColor;
         }
     }
 }

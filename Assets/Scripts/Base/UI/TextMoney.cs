@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using LTAUnityBase.Base.Controller;
+using TMPro;
 namespace LTAUnityBase.Base.UI
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Text))]
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class TextMoney : BehaviourController
     {
-        public Text m_Text;
+        public TextMeshProUGUI m_Text;
 
         long currentValue;
 
@@ -23,7 +24,7 @@ namespace LTAUnityBase.Base.UI
 
         private void Awake()
         {
-            m_Text = GetComponent<Text>();
+            m_Text = GetComponent<TextMeshProUGUI>();
         }
 
         public void SetMoney(long newValue)

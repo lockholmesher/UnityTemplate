@@ -28,8 +28,8 @@ public class PopUpController : MonoBehaviour {
         canvas.gameObject.SetActive(true);
         T PopUp = GameObject.Instantiate(Resources.Load<GameObject>("PopUp/" + _PopUpName), canvas).GetComponentInChildren<T>();
         PopUp.name = _PopUpName;
-        PopUp.transform.localPosition = Vector3.zero;
-        PopUp.transform.localScale = Vector3.one;
+        //PopUp.transform.localPosition = Vector3.zero;
+        //PopUp.transform.localScale = Vector3.one;
         listCurrentPopUp.Add(PopUp);
         return PopUp;
     }

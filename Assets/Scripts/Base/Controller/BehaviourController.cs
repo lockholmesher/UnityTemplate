@@ -12,7 +12,7 @@ namespace  LTAUnityBase.Base.Controller
 
 	protected void MoveToPos(Vector3 posMoveTo,Action callBackComplete = null)
 	{
-		LeanTween.move (gameObject, posMoveTo, timePerforme).setEase(_LeanTweenType).setOnComplete(callBackComplete);
+		LeanTween.move(gameObject, posMoveTo, timePerforme).setEase(_LeanTweenType).setOnComplete(callBackComplete);
 	}
 
     protected void MoveToPosLocal(Vector3 posMoveTo,Action callBackComplete = null)

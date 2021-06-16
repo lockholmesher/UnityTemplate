@@ -2,16 +2,21 @@
 using UnityEngine.EventSystems;
 using System;
 using LTAUnityBase.Base.UI;
+using LTAUnityBase.Base.UI.Effect;
+using System.Collections.Generic;
+using System.Collections;
+
 namespace  LTAUnityBase.Base.Controller
 {
-	public abstract class BasePopUp : BehaviourController,IPointerClickHandler {
-		#region IPointerClickHandler implementation
+	public abstract class BasePopUp : MonoBehaviour,IPointerClickHandler {
 
     [SerializeField]
 	ButtonController BtnExit;
-	void Start()
+
+	IEffect[] effects;
+
+    void Start()
 	{
-		this.transform.localScale = Vector3.zero;
 		if (BtnExit != null)
             {
 				typeClosePopUp = TypeClosePopUp.ClickButtonToClose;
@@ -24,10 +29,49 @@ namespace  LTAUnityBase.Base.Controller
             {
 				typeClosePopUp = TypeClosePopUp.ClickUpToClose;
             }
-		ScaleTo(Vector3.one,()=>{
-            
-			currentTypeClosePopUp = typeClosePopUp;
-		});
+		effects = GetComponents<IEffect>();
+		if (effects != null)
+		{
+             StartCoroutine(IeShowEffects(() =>
+				{
+					 currentTypeClosePopUp = typeClosePopUp;
+				}));
+		}
+	}
+
+	IEnumerator IeShowEffects(Action endShowEffect)
+    {
+		int countShow = 0;
+		foreach (IEffect effect in effects)
+        {
+			effect.Hide();
+			effect.ShowEffect(()=>
+			{
+				countShow++;
+			});
+        }
+		yield return new WaitUntil(()=> countShow >= effects.Length);
+		if (endShowEffect != null)
+            {
+				endShowEffect();
+            }
+	}
+
+	IEnumerator IeHideEffects(Action endHideEffect)
+	{
+		int countShow = 0;
+		foreach (IEffect effect in effects)
+		{
+				effect.HideEffect(() =>
+				{
+					countShow++;
+				});
+		}
+		yield return new WaitUntil(() => countShow >= effects.Length);
+		if (endHideEffect != null)
+		{
+			endHideEffect();
+		}
 	}
 
 	public void OnPointerClick (PointerEventData eventData)
@@ -37,8 +81,6 @@ namespace  LTAUnityBase.Base.Controller
 			ClosePopUp ();
 		}
 	}
-
-	#endregion
 
 	public enum TypeClosePopUp
 	{
@@ -50,18 +92,22 @@ namespace  LTAUnityBase.Base.Controller
 
 	protected Action _callbackClosePopUp;
 
-
 	[SerializeField]
 	protected TypeClosePopUp typeClosePopUp = TypeClosePopUp.ClickUpToClose;
 	protected TypeClosePopUp currentTypeClosePopUp = TypeClosePopUp.None;
+
 	public void ClosePopUp()
 	{
-        ScaleTo(Vector3.zero,()=>{
-			if (_callbackClosePopUp != null)
-			    _callbackClosePopUp ();
-			PopUp.Instance.ClosePopUp (this);
-		});
+			if (effects != null)
+			{
+				StartCoroutine(IeHideEffects(() =>
+				{
+					if (_callbackClosePopUp != null)
+						_callbackClosePopUp();
+					PopUp.Instance.ClosePopUp(this);
+				}));
+			}
 	}
-}
+	}
 }
 

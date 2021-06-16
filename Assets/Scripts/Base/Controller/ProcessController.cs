@@ -10,37 +10,30 @@ namespace  LTAUnityBase.Base.Controller
     {
         [SerializeField]
         protected float maxValue;
-        protected float currentsValue;
-
-        //[SerializeField]
-        //protected Image img;
+        [SerializeField]
+        protected float currentValue;
 
         protected void EditValue(float value,Action OnCompleteProcessing = null){
-            float previousValue = currentsValue;
-            currentsValue = value;
-            if (currentsValue <= 0) {
-                currentsValue = 0;
+            float previousValue = currentValue;
+            currentValue = value;
+            if (currentValue <= 0) {
+                currentValue = 0;
             };
-            if (currentsValue > maxValue) currentsValue = maxValue;
-            UpdateValue(previousValue,currentsValue,OnUpdate,OnCompleteProcessing);
+            if (currentValue > maxValue) currentValue = maxValue;
+            UpdateValue(previousValue,currentValue,OnUpdate,OnCompleteProcessing);
         }
 
         protected void SetValue(float value)
         {
-            currentsValue = value;
-            if (currentsValue <= 0) {
-                currentsValue = 0;
+            currentValue = value;
+            if (currentValue <= 0) {
+                currentValue = 0;
             };
-            if (currentsValue > maxValue) currentsValue = maxValue;
-            OnUpdate(currentsValue);
+            if (currentValue > maxValue) currentValue = maxValue;
+            OnUpdate(currentValue);
         }
 
         protected abstract void OnUpdate(float value);
-        //{
-        //    if (img != null)
-        //        img.fillAmount = (float) value/maxValue;
-        //}
-
-    
-}
+   
+    }
 }
